@@ -1,0 +1,6 @@
+#pane{
+    -fx-background-image: url("note.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 600 763;
+    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+}
