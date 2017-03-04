@@ -1,5 +1,6 @@
-package javafx;
+package fx.javafx;
 
+import fx.controller.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,10 +23,14 @@ public class Main extends Application {
 
         Scene scene = new Scene(pane, 400, 400);*/
 
-        Parent panel = FXMLLoader.load(this.getClass().getResource("/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/login.fxml"));
+        Parent panel = loader.load();
+        LoginController controller = (LoginController) loader.getController();
+        controller.setStage(primaryStage);
         Scene scene = new Scene(panel, 600, 763);
 
-        primaryStage.setTitle("JavaFX title");
+        primaryStage.setTitle("Полиглот");
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

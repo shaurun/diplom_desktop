@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="763.0" minWidth="600.0" prefHeight="763.0" prefWidth="600.0" stylesheets="@loginstyle.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="763.0" minWidth="600.0" prefHeight="763.0" prefWidth="600.0" stylesheets="@loginstyle.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controller.LoginController">
    <children>
       <Label layoutX="70.0" layoutY="344.0" text="Имя пользователя" textFill="WHITE">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <TextField layoutX="277.0" layoutY="338.0" promptText="Имя пользователя">
+      <TextField fx:id="username" layoutX="277.0" layoutY="338.0" promptText="Имя пользователя">
          <font>
             <Font size="18.0" />
          </font>
@@ -25,17 +25,17 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <PasswordField layoutX="277.0" layoutY="406.0" promptText="Пароль">
+      <PasswordField fx:id="password" layoutX="277.0" layoutY="406.0" promptText="Пароль">
          <font>
             <Font size="18.0" />
          </font>
       </PasswordField>
-      <Button defaultButton="true" layoutX="191.0" layoutY="482.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="200.0" text="Войти">
+      <Button fx:id="login" defaultButton="true" layoutX="191.0" layoutY="482.0" mnemonicParsing="false" onAction="#login" prefHeight="39.0" prefWidth="200.0" text="Войти">
          <font>
             <Font size="21.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutX="166.0" layoutY="235.0" prefHeight="74.0" prefWidth="251.0" text="Полиглот" textFill="#274a86" underline="true">
+      <Label fx:id="appTitle" alignment="CENTER" layoutX="166.0" layoutY="235.0" prefHeight="74.0" prefWidth="251.0" text="Полиглот" textFill="#274a86" underline="true">
          <font>
             <Font name="System Bold" size="51.0" />
          </font>
