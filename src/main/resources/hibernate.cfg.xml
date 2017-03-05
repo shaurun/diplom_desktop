@@ -4,26 +4,27 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">
-            org.hibernate.dialect.MySQLDialect
-        </property>
-        <property name="hibernate.connection.driver_class">
-            com.mysql.jdbc.Driver
-        </property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
         <!-- Assume test is the database name -->
-        <property name="hibernate.connection.url">
-            jdbc:mysql://localhost:3306/polyglot
-        </property>
-        <property name="hibernate.connection.username">
-            shaurun
-        </property>
-        <property name="hibernate.connection.password">
-            azrael181818111990
-        </property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/polyglot</property>
+        <property name="hibernate.connection.username">shaurun</property>
+        <property name="hibernate.connection.password">azrael181818111990</property>
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">1</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
 
         <!-- List of XML mapping files -->
-        <!--<mapping resource="Employee.hbm.xml"/>-->
+        <mapping class="fx.model.User" />
+        <mapping class="fx.model.Role" />
+        <mapping class="fx.model.Subject" />
+        <mapping class="fx.model.Lesson" />
+        <mapping class="fx.model.Topic" />
+        <mapping class="fx.model.Word" />
 
     </session-factory>
 </hibernate-configuration>

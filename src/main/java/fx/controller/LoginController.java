@@ -1,6 +1,7 @@
 package fx.controller;
 
-import fx.javafx.Main;
+import fx.dao.UserDao;
+import fx.dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,12 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import fx.model.User;
 
 import java.io.IOException;
 
-/**
- * Created by User on 04.03.2017.
- */
 public class LoginController {
     @FXML private Label appTitle;
     @FXML private TextField username;
@@ -26,9 +25,23 @@ public class LoginController {
     private Stage stage;
 
     public void login(ActionEvent event) throws IOException {
-        if (username.getText().equals("admin")
-                && password.getText().equals("admin")) {
+        String usernameText = username.getText();
+        String passText = password.getText();
 
+        if (usernameText.trim().isEmpty()) {
+            username.requestFocus();
+            return;
+        }
+
+        if (passText.trim().isEmpty()) {
+            password.requestFocus();
+            return;
+        }
+
+        UserDao userDao = new UserDaoImpl();
+        User user = userDao.findByUsername(usernameText);
+
+        if (user != null) {
             Parent panel = FXMLLoader.load(this.getClass().getResource("/subjects.fxml"));
             Scene scene = new Scene(panel, 600, 763);
             stage.setScene(scene);
