@@ -24,34 +24,46 @@ public class SubjectDaoImpl implements SubjectDao{
     @Override
     public void addSubject(Subject subject) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(subject);
+        session.beginTransaction();
+        session.save(subject);
+        session.getTransaction().commit();
         LOG.debug("Saved subject: {}", subject.toString());
     }
 
     @Override
     public void edit(Subject subject) {
         Session session = sessionFactory.getCurrentSession();
-        session.update(subject);
+        session.beginTransaction();
+        session.createQuery("update Subject set name = :name where id = :id")
+                .setParameter("name", subject.getName())
+                .setParameter("id", subject.getId())
+                .executeUpdate();
+        //session.update(subject);
+        session.getTransaction().commit();
         LOG.debug("Subject {} was updated", subject.toString());
     }
 
     @Override
     public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Subject subject = (Subject) session.load(Subject.class, new Long(id));
-        if (subject != null){
-            session.delete(subject);
-            LOG.debug("Subject {} was deleted", subject.toString());
-        } else {
-            LOG.debug("Request to delete subject {} was declined. No subject with id {} was found in database",
-                    subject.toString(), subject.getId());
-        }
+        session.beginTransaction();
+        session.createQuery("delete Subject s where id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+        session.getTransaction().commit();
+
+        LOG.debug("Subject with id {} was deleted", id);
     }
 
     @Override
     public Subject getSubjectById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Subject subject = (Subject) session.load(Subject.class, new Long(id));
+        session.beginTransaction();
+        Subject subject = (Subject) session.createQuery("FROM Subject s WHERE s.id = :id")
+                .setParameter("id", id)
+                .uniqueResult();
+        //Subject subject = (Subject) session.load(Subject.class, new Long(id));
+        session.getTransaction().commit();
         LOG.debug("Subject found by id {}: {}", subject.getId(), subject.toString());
         return subject;
     }

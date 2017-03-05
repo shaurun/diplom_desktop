@@ -4,6 +4,8 @@ import fx.dao.UserDao;
 import fx.dao.UserDaoImpl;
 import fx.util.UserSession;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,10 +45,10 @@ public class LoginController {
         User user = userDao.findByUsername(usernameText);
 
         if (user != null) {
+            UserSession.setUser(user);
             Parent panel = FXMLLoader.load(this.getClass().getResource("/subjects.fxml"));
             Scene scene = new Scene(panel, 600, 763);
             stage.setScene(scene);
-            UserSession.setUser(user);
         }
     }
 
