@@ -22,34 +22,38 @@ public class TopicDaoImpl implements TopicDao{
     @Override
     public void add(Topic topic) {
         Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         session.persist(topic);
+        session.getTransaction().commit();
         LOG.debug("Saved topic: {}", topic.toString());
     }
 
     @Override
     public void edit(Topic topic) {
         Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         session.update(topic);
+        session.getTransaction().commit();
         LOG.debug("Topic {} was updated", topic.toString());
     }
 
     @Override
     public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
-        Topic topic = (Topic) session.load(Topic.class, new Long(id));
-        if (topic != null){
-            session.delete(topic);
-            LOG.debug("Topic {} was deleted", topic.toString());
-        } else {
-            LOG.debug("Request to delete topic {} was declined. No topic with id {} was found in database",
-                    topic.toString(), topic.getId());
-        }
+        session.beginTransaction();
+        session.createQuery("delete Topic t where id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+        session.getTransaction().commit();
+        LOG.debug("Topic with id {} was deleted", id);
     }
 
     @Override
     public Topic getTopicById(long id) {
         Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         Topic topic = (Topic) session.load(Topic.class, new Long(id));
+        session.getTransaction().commit();
         LOG.debug("Topic found by id {}: {}", topic.getId(), topic.toString());
         return topic;
     }
@@ -57,7 +61,9 @@ public class TopicDaoImpl implements TopicDao{
     @Override
     public List<Topic> listTopics() {
         Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         List<Topic> topicsList = session.createQuery("FROM Topic").list();
+        session.getTransaction().commit();
         LOG.debug("Topics list: {}", topicsList.toString());
         return topicsList;
     }
