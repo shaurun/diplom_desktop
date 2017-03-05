@@ -20,5 +20,7 @@ public interface LessonDao {
 
     List<Lesson> listUserLessons(User user);
 
+    List<Lesson> listLessons(Subject subject);
+
     Subject getLessonSubject(Lesson lesson);
 }

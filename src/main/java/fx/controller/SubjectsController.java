@@ -75,11 +75,11 @@ public class SubjectsController implements Initializable {
     }
 
     private void openSubject(ActionEvent event) throws IOException {
+        UserSession.setSubject(subjectDao.getSubjectById(Long.parseLong(((Hyperlink)(event.getSource())).getId())));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/subject.fxml"));
         Parent panel = loader.load();
         SubjectController controller = (SubjectController) loader.getController();
         controller.setStage(stage);
-        controller.setSubject(subjectDao.getSubjectById(Long.parseLong(((Hyperlink)(event.getSource())).getId())));
         Scene scene = new Scene(panel, 600, 763);
         stage.setScene(scene);
     }

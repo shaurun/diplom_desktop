@@ -54,7 +54,9 @@ public class LessonDaoImpl implements LessonDao{
     public Lesson getLessonById(long id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        Lesson lesson = (Lesson) session.load(Lesson.class, new Long(id));
+        Lesson lesson = (Lesson) session.createQuery("FROM Lesson l WHERE l.id = :id")
+                .setParameter("id", id)
+                .uniqueResult();
         session.getTransaction().commit();
         LOG.debug("Lesson found by id {}: {}", lesson.getId(), lesson.toString());
         return lesson;
@@ -76,6 +78,18 @@ public class LessonDaoImpl implements LessonDao{
         session.beginTransaction();
         List<Lesson> lessonsList = session.createQuery("FROM Lesson l WHERE l.userId = :userId")
                 .setParameter("userId", user.getId())
+                .list();
+        session.getTransaction().commit();
+        LOG.debug("Lessons list: {}", lessonsList.toString());
+        return lessonsList;
+    }
+
+    @Override
+    public List<Lesson> listLessons(Subject subject) {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        List<Lesson> lessonsList = session.createQuery("FROM Lesson l WHERE l.subject = :subject")
+                .setParameter("subject", subject)
                 .list();
         session.getTransaction().commit();
         LOG.debug("Lessons list: {}", lessonsList.toString());
