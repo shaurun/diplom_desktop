@@ -7,15 +7,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="763.0" minWidth="600.0" prefHeight="763.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
-    <TableView layoutX="6.0" layoutY="6.0" prefHeight="231.0" prefWidth="593.0">
+<Pane id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="763.0" minWidth="600.0" prefHeight="763.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controller.SubjectsController">
+    <TableView fx:id="tableSubjects" layoutX="6.0" layoutY="6.0" prefHeight="231.0" prefWidth="593.0">
         <columns>
-            <TableColumn prefWidth="414.0" text="Название" />
-            <TableColumn minWidth="0.0" prefWidth="90.0" text="Изменить" />
-            <TableColumn prefWidth="88.0" text="Удалить" />
+            <TableColumn fx:id="colTitle" prefWidth="414.0" text="Название" />
+            <TableColumn fx:id="colEdit" minWidth="0.0" prefWidth="90.0" text="Изменить" />
+            <TableColumn fx:id="colDelete" prefWidth="88.0" text="Удалить" />
         </columns>
     </TableView>
     <Label layoutX="72.0" layoutY="287.0" prefHeight="17.0" prefWidth="93.0" text="Название" />
-    <TextField layoutX="154.0" layoutY="283.0" promptText="Название дисциплины" />
-    <Button layoutX="337.0" layoutY="283.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Добавить дисциплину" />
+    <TextField fx:id="txtSubjectName" layoutX="154.0" layoutY="283.0" promptText="Название дисциплины" />
+    <Button fx:id="btnAddSubject" layoutX="337.0" layoutY="283.0" mnemonicParsing="false" onAction="#addSubject" prefHeight="25.0" prefWidth="149.0" text="Добавить дисциплину" />
 </Pane>

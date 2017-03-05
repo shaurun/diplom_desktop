@@ -2,6 +2,7 @@ package fx.controller;
 
 import fx.dao.UserDao;
 import fx.dao.UserDaoImpl;
+import fx.util.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +46,7 @@ public class LoginController {
             Parent panel = FXMLLoader.load(this.getClass().getResource("/subjects.fxml"));
             Scene scene = new Scene(panel, 600, 763);
             stage.setScene(scene);
+            UserSession.setUser(user);
         }
     }
 

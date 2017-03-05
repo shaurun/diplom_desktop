@@ -3,6 +3,7 @@ package fx.dao;
 import fx.model.Lesson;
 import fx.model.Subject;
 import fx.model.Topic;
+import fx.util.UserSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -58,7 +59,11 @@ public class SubjectDaoImpl implements SubjectDao{
     @Override
     public List<Subject> listSubjects() {
         Session session = sessionFactory.getCurrentSession();
-        List<Subject> subjectsList = session.createQuery("FROM Subject").list();
+        session.beginTransaction();
+        List<Subject> subjectsList = session.createQuery("FROM Subject s WHERE s.user = :user")
+                .setParameter("user", UserSession.getUser())
+                .list();
+        session.getTransaction().commit();
         LOG.debug("Subjects list: {}", subjectsList.toString());
         return subjectsList;
     }
@@ -66,18 +71,22 @@ public class SubjectDaoImpl implements SubjectDao{
     @Override
     public List<Lesson> listSubjectLessons(long subjectId) {
         Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         List<Lesson> lessonsList = session.createQuery("FROM Lesson l WHERE l.subject = :subject")
                 .setParameter("subject", getSubjectById(subjectId))
                 .list();
+        session.getTransaction().commit();
         return lessonsList;
     }
 
     @Override
     public List<Topic> listSubjectTopics(long subjectId) {
         Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
         List<Topic> topicsList = session.createQuery("FROM Topic t WHERE t.subject = :subject")
                 .setParameter("subject", getSubjectById(subjectId))
                 .list();
+        session.getTransaction().commit();
         return topicsList;
     }
 }
