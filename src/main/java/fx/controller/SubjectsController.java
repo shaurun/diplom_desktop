@@ -9,13 +9,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +32,16 @@ public class SubjectsController implements Initializable {
     @FXML private Button btnAddSubject;
 
     private Subject subject;
+    private Stage stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     SubjectDao subjectDao = new SubjectDaoImpl();
 
     public void editSubject(ActionEvent event) {
-        Long id = Long.parseLong(((Button) event.getSource()).getId());
+        Long id = Long.parseLong(((Hyperlink) event.getSource()).getId());
         subject = subjectDao.getSubjectById(id);
         txtSubjectName.setText(subject.getName());
         btnAddSubject.setText("Изменить дисциплину");
@@ -53,7 +60,7 @@ public class SubjectsController implements Initializable {
     }
 
     public void deleteSubject(ActionEvent event) {
-        Long id = Long.parseLong(((Button) event.getSource()).getId());
+        Long id = Long.parseLong(((Hyperlink) event.getSource()).getId());
         subjectDao.delete(id);
         update();
     }
@@ -65,6 +72,16 @@ public class SubjectsController implements Initializable {
         subjectDao.addSubject(subject);
         txtSubjectName.setText("");
         update();
+    }
+
+    private void openSubject(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/subject.fxml"));
+        Parent panel = loader.load();
+        SubjectController controller = (SubjectController) loader.getController();
+        controller.setStage(stage);
+        controller.setSubject(subjectDao.getSubjectById(Long.parseLong(((Hyperlink)(event.getSource())).getId())));
+        Scene scene = new Scene(panel, 600, 763);
+        stage.setScene(scene);
     }
 
     @Override
@@ -82,14 +99,15 @@ public class SubjectsController implements Initializable {
         ObservableList<SubjectV> data =
                 FXCollections.observableArrayList(subjectVs);
         tableSubjects.setItems(data);
-        colTitle.setCellValueFactory(new PropertyValueFactory<SubjectV,String>("name"));
-        colEdit.setCellValueFactory(new PropertyValueFactory<SubjectV, Button>("edit"));
-        colDelete.setCellValueFactory(new PropertyValueFactory<SubjectV, Button>("delete"));
+        colTitle.setCellValueFactory(new PropertyValueFactory<SubjectV,Hyperlink>("subj"));
+        colEdit.setCellValueFactory(new PropertyValueFactory<SubjectV, Hyperlink>("edit"));
+        colDelete.setCellValueFactory(new PropertyValueFactory<SubjectV, Hyperlink>("delete"));
     }
 
     public class SubjectV extends Subject {
-        private Button edit;
-        private Button delete;
+        private Hyperlink subj;
+        private Hyperlink edit;
+        private Hyperlink delete;
 
         public SubjectV() {
             super();
@@ -101,40 +119,63 @@ public class SubjectsController implements Initializable {
             setLessons(subject.getLessons());
             setName(subject.getName());
             setTopics(subject.getTopics());
-            Button btn = new Button("Изменить");
-            btn.setId(String.valueOf(subject.getId()));
-            btn.setOnAction(new EventHandler<ActionEvent>() {
+            Hyperlink link = new Hyperlink(subject.getName());
+            link.setId(String.valueOf(subject.getId()));
+            link.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        openSubject(event);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            setSubj(link);
+            link = new Hyperlink("Изменить");
+            link.setId(String.valueOf(subject.getId()));
+            link.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     editSubject(event);
                 }
             });
-            setEdit(btn);
-            btn = new Button("Удалить");
-            btn.setId(String.valueOf(subject.getId()));
-            btn.setOnAction(new EventHandler<ActionEvent>() {
+            setEdit(link);
+            link = new Hyperlink("Удалить");
+            link.setId(String.valueOf(subject.getId()));
+            link.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                    deleteSubject(event);
                 }
             });
-            setDelete(btn);
+            setDelete(link);
         }
 
-        public Button getEdit() {
+        public Hyperlink getEdit() {
             return edit;
         }
 
-        public void setEdit(Button edit) {
+        public void setEdit(Hyperlink edit) {
             this.edit = edit;
         }
 
-        public Button getDelete() {
+        public Hyperlink getDelete() {
             return delete;
         }
 
-        public void setDelete(Button delete) {
+        public void setDelete(Hyperlink delete) {
             this.delete = delete;
         }
+
+        public Hyperlink getSubj() {
+            return subj;
+        }
+
+        public void setSubj(Hyperlink subj) {
+            this.subj = subj;
+        }
     }
+
+
 }

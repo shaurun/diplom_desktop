@@ -46,7 +46,10 @@ public class LoginController {
 
         if (user != null) {
             UserSession.setUser(user);
-            Parent panel = FXMLLoader.load(this.getClass().getResource("/subjects.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/subjects.fxml"));
+            Parent panel = loader.load();
+            SubjectsController controller = (SubjectsController) loader.getController();
+            controller.setStage(stage);
             Scene scene = new Scene(panel, 600, 763);
             stage.setScene(scene);
         }
