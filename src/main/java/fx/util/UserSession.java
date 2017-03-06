@@ -1,5 +1,6 @@
 package fx.util;
 
+import fx.model.Lesson;
 import fx.model.Subject;
 import fx.model.User;
 
@@ -7,6 +8,7 @@ public class UserSession {
     private static UserSession userSession;
     private User user;
     private Subject subject;
+    private static Lesson lesson;
 
     private UserSession() {}
 
@@ -32,5 +34,13 @@ public class UserSession {
 
     public static void setSubject(Subject subject) {
         userSession.subject = subject;
+    }
+
+    public static Lesson getLesson() {
+        return lesson;
+    }
+
+    public static void setLesson(Lesson lesson) {
+        UserSession.lesson = lesson;
     }
 }

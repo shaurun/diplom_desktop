@@ -13,7 +13,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
@@ -21,6 +24,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -186,7 +190,11 @@ public class SubjectController implements Initializable {
             this.les.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-
+                    try {
+                        openLesson(event);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -283,5 +291,15 @@ public class SubjectController implements Initializable {
                 }
             });
         }
+    }
+
+    private void openLesson(ActionEvent event) throws IOException {
+        UserSession.setLesson(lessonDao.getLessonById(Long.parseLong(((Hyperlink)(event.getSource())).getId())));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/lesson.fxml"));
+        Parent panel = loader.load();
+        VocabularyController controller = (VocabularyController) loader.getController();
+        controller.setStage(stage);
+        Scene scene = new Scene(panel, 600, 763);
+        stage.setScene(scene);
     }
 }
