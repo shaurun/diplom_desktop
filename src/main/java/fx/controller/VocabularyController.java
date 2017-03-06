@@ -3,6 +3,7 @@ package fx.controller;
 import fx.dao.*;
 import fx.model.Lesson;
 import fx.model.Subject;
+import fx.model.Topic;
 import fx.model.Word;
 import fx.util.UserSession;
 import javafx.collections.FXCollections;
@@ -13,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -34,6 +38,7 @@ public class VocabularyController implements Initializable{
     @FXML private TableView tableVocabulary;
     @FXML private TableColumn colWord;
     @FXML private TableColumn colTranslation;
+    @FXML private TableColumn colTopics;
     @FXML private TableColumn colEdit;
     @FXML private TableColumn colDelete;
     @FXML private TextField txtWord;
@@ -96,6 +101,7 @@ public class VocabularyController implements Initializable{
         tableVocabulary.setItems(data);
         colWord.setCellValueFactory(new PropertyValueFactory<WordV, String>("word"));
         colTranslation.setCellValueFactory(new PropertyValueFactory<WordV, String>("translation"));
+        colTopics.setCellValueFactory(new PropertyValueFactory<WordV, Label>("topic"));
         colEdit.setCellValueFactory(new PropertyValueFactory<WordV, Hyperlink>("edit"));
         colDelete.setCellValueFactory(new PropertyValueFactory<WordV, Hyperlink>("delete"));
     }
@@ -107,12 +113,14 @@ public class VocabularyController implements Initializable{
     public class WordV {
         private String word;
         private String translation;
+        private Label topic;
         private Hyperlink edit;
         private Hyperlink delete;
 
         public WordV(Word word) {
             setWord(word);
             setTranslation(word);
+            setTopic(word);
             setEdit(word);
             setDelete(word);
         }
@@ -131,6 +139,22 @@ public class VocabularyController implements Initializable{
 
         public void setTranslation(Word word) {
             this.translation = word.getTranslation();
+        }
+
+        public Label getTopic() {
+            return topic;
+        }
+
+        public void setTopic(Word word) {
+            Label label = new Label();
+            Topic topic = word.getTopic();
+            if (topic != null) {
+                label.setText(topic.getName());
+                label.setBackground(new Background(
+                        new BackgroundFill(Color.web(topic.getColor()), null, null)));
+                label.setId(String.valueOf(topic.getId()));
+            }
+            this.topic = label;
         }
 
         public Hyperlink getEdit() {

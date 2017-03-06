@@ -13,10 +13,11 @@
 <Pane id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="763.0" minWidth="600.0" prefHeight="763.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controller.VocabularyController">
     <TableView fx:id="tableVocabulary" layoutX="6.0" layoutY="62.0" prefHeight="277.0" prefWidth="593.0">
         <columns>
-            <TableColumn fx:id="colWord" prefWidth="219.0" text="Слово" />
-            <TableColumn fx:id="colTranslation" prefWidth="212.0" text="Значение" />
+            <TableColumn fx:id="colWord" prefWidth="171.0" text="Слово" />
+            <TableColumn fx:id="colTranslation" prefWidth="173.0" text="Значение" />
+         <TableColumn fx:id="colTopics" prefWidth="100.0" text="Темы" />
             <TableColumn fx:id="colEdit" minWidth="0.0" prefWidth="77.0" text="Изменить" />
-            <TableColumn fx:id="colDelete" prefWidth="84.0" text="Удалить" />
+            <TableColumn fx:id="colDelete" prefWidth="71.0" text="Удалить" />
         </columns>
     </TableView>
    <AnchorPane layoutX="41.0" layoutY="348.0">
