@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -9,10 +9,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 
-<?import javafx.scene.control.Hyperlink?>
-<Pane id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="763.0" minWidth="600.0" prefHeight="763.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controller.VocabularyController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="763.0" minWidth="600.0" prefHeight="763.0" prefWidth="600.0" stylesheets="@loginstyle.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.controller.VocabularyController">
     <TableView fx:id="tableVocabulary" layoutX="6.0" layoutY="62.0" prefHeight="277.0" prefWidth="593.0">
         <columns>
             <TableColumn fx:id="colWord" prefWidth="171.0" text="Слово" />
@@ -22,12 +22,13 @@
             <TableColumn fx:id="colDelete" prefWidth="71.0" text="Удалить" />
         </columns>
     </TableView>
-   <AnchorPane layoutX="41.0" layoutY="348.0" prefHeight="77.0" prefWidth="481.0">
+   <AnchorPane layoutX="41.0" layoutY="348.0" prefHeight="297.0" prefWidth="548.0">
       <children>
           <TextField fx:id="txtWord" promptText="Слово" />
           <TextField fx:id="txtTranslation" layoutX="156.0" promptText="Значение" />
          <Hyperlink fx:id="lnkTopic" layoutY="39.0" prefHeight="25.0" prefWidth="180.0" />
           <Button fx:id="btnAdd" layoutX="332.0" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="149.0" text="Добавить слово" />
+         <FlowPane id="cloud" fx:id="cloud" layoutX="212.0" layoutY="49.0" prefHeight="200.0" prefWidth="301.0" />
       </children>
    </AnchorPane>
    <MenuBar layoutX="6.0" layoutY="2.0">

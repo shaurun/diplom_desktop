@@ -4,3 +4,11 @@
     -fx-background-size: 600 763;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
 }
+
+#cloud{
+    -fx-background-image: url("cloud.png");
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-background-repeat: stretch;
+
+}
