@@ -34,9 +34,10 @@ public class WordDaoImpl implements WordDao{
     public void edit(Word word) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        session.createQuery("update Word set word = :word, translation = :translation where id = :id")
+        session.createQuery("update Word set word = :word, translation = :translation, topic = :topic where id = :id")
                 .setParameter("word", word.getWord())
                 .setParameter("translation", word.getTranslation())
+                .setParameter("topic", word.getTopic())
                 .setParameter("id", word.getId())
                 .executeUpdate();
         session.getTransaction().commit();

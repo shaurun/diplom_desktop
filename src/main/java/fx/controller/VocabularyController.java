@@ -43,6 +43,7 @@ public class VocabularyController implements Initializable{
     @FXML private TableColumn colDelete;
     @FXML private TextField txtWord;
     @FXML private TextField txtTranslation;
+    @FXML private Hyperlink lnkTopic;
     @FXML private Button btnAdd;
 
 
@@ -57,6 +58,21 @@ public class VocabularyController implements Initializable{
         word = wordDao.getWordById(id);
         txtWord.setText(word.getWord());
         txtTranslation.setText(word.getTranslation());
+        Topic topic = word.getTopic();
+        if (topic != null) {
+            lnkTopic.setVisible(true);
+            lnkTopic.setText(topic.getName());
+            lnkTopic.setBackground(new Background(
+                    new BackgroundFill(Color.web(topic.getColor()), null, null)));
+            lnkTopic.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    unbindTopic(event);
+                }
+            });
+        } else {
+            lnkTopic.setVisible(false);
+        }
         btnAdd.setText("Изменить слово");
         final EventHandler eventHandler = btnAdd.getOnAction();
         btnAdd.setOnAction(new EventHandler<ActionEvent>() {
@@ -67,11 +83,17 @@ public class VocabularyController implements Initializable{
                 wordDao.edit(word);
                 txtWord.setText("");
                 txtTranslation.setText("");
+                lnkTopic.setVisible(false);
                 btnAdd.setText("Добавить слово");
                 btnAdd.setOnAction(eventHandler);
                 update();
             }
         });
+    }
+
+    private void unbindTopic(ActionEvent event) {
+        word.setTopic(null);
+        lnkTopic.setVisible(false);
     }
 
     public void add(ActionEvent event) {
