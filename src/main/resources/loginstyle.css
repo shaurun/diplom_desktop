@@ -10,5 +10,11 @@
     -fx-background-position: center;
     -fx-background-size: contain;
     -fx-background-repeat: stretch;
+}
 
+#next{
+    -fx-background-image: url("right_arrow.png");
+    -fx-background-position: center;
+    -fx-background-size: contain;
+    -fx-background-repeat: stretch;
 }
